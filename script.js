@@ -71,46 +71,13 @@ async function loadProjects() {
 }
 loadProjects();
 
-// ─── Contact Form → Google Sheets ───
-// After deploying your Apps Script, replace the URL below with your Web App URL
-const APPS_SCRIPT_URL ='https://script.google.com/macros/s/AKfycbwjg4w2MIweN_ghD_l9YGtT74-EjNNx0omtv7VT1XITjabmq_92MMEDwlqbQVAFAVlT/exec';
-
+// ─── Contact Form ───
 const form = document.getElementById('contact-form');
 const toast = document.getElementById('toast');
-const submitBtn = form.querySelector('.btn-submit');
 
-form.addEventListener('submit', async (e) => {
+form.addEventListener('submit', (e) => {
   e.preventDefault();
-
-  const name    = form.querySelector('input[type="text"]').value.trim();
-  const email   = form.querySelector('input[type="email"]').value.trim();
-  const message = form.querySelector('textarea').value.trim();
-
-  // Show loading state
-  submitBtn.textContent = 'Sending…';
-  submitBtn.disabled = true;
-
-  try {
-    await fetch(APPS_SCRIPT_URL, {
-      method: 'POST',
-      mode: 'no-cors',   // Apps Script requires no-cors
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name, email, message }),
-    });
-    // no-cors means we can't read the response — assume success if no throw
-    showToast('✓ Message sent! I\'ll get back to you soon.', 'success');
-    form.reset();
-  } catch (err) {
-    showToast('✗ Something went wrong. Please try again.', 'error');
-  } finally {
-    submitBtn.textContent = 'Send Message';
-    submitBtn.disabled = false;
-  }
-});
-
-function showToast(msg, type) {
-  toast.textContent = msg;
-  toast.style.background = type === 'error' ? '#dc2626' : '';
+  form.reset();
   toast.classList.add('show');
-  setTimeout(() => toast.classList.remove('show'), 4000);
-}
+  setTimeout(() => toast.classList.remove('show'), 3000);
+});
